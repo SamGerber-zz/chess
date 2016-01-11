@@ -1,12 +1,14 @@
-require_relative 'errors.rb'
+require_relative 'manifest'
 
 class Board
 
-  NullPiece = nil
+  NULL_PIECE = Piece.new("pawn", :white, [0,0])
+
+  attr_reader :grid
 
   def initialize(size = 8)
     @size = size
-    @grid = Array.new(size) { Array.new(size) { NullPiece } }
+    @grid = Array.new(size) { Array.new(size) { NULL_PIECE } }
     @taken_pieces = []
   end
 
@@ -16,32 +18,33 @@ class Board
   end
 
   def empty?(pos)
-    self[pos] == NullObject
+    self[pos] == NULL_PIECE
   end
 
+  def in_bounds?(pos)
+    pos.all? { |coord| coord.between?(0, @size - 1)}
+  end
 
   def [](pos)
-    column, y = pos
-    row = @size - y - 1
-    @grid[row][column]
+    row, col = pos
+    @grid[row][col]
   end
 
   def []=(pos, piece)
-    column, y = pos
-    row = @size - y - 1
-    @grid[row][column] = piece
+    row, col = pos
+    @grid[row][col] = piece
   end
 
   def place_piece(piece, end_pos)
-    raise BadMoveError unless piece.valid_moves.include?(end_pos)
+    raise BadMoveError, "Cannot move #{piece.name} to #{end_pos}" unless piece.valid_moves.include?(end_pos)
     @taken_pieces << self[end_pos] unless self.empty?(end_pos)
     self[end_pos] = piece
   end
 
   def remove_piece(start)
-    raise BadMoveError if self.empty?(start)
+    raise BadMoveError, "Tried to remove nonexistent piece at #{start}" if self.empty?(start)
     piece = self[start]
-    self[start] = NullPiece
+    self[start] = NULL_PIECE
     piece
   end
 
