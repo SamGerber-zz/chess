@@ -25,6 +25,9 @@ require_relative 'knight.rb'
 # The King class
 require_relative 'king.rb'
 
+# The Pawn class
+require_relative 'pawn.rb'
+
 
 # The SlidingPiece super class. These are pieces that move by
 # translating any distance in a  specified direction, like the Queen,

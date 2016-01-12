@@ -23,6 +23,8 @@ class Board
     add_pieces(Queen, [[0, 4], [7, 4]])
     add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
     add_pieces(King, [[0, 3], [7, 3]])
+    add_pawns(1)
+    add_pawns(6)
   end
 
   # Instantiate the appropriate number of rooks and add them to the board,
@@ -32,6 +34,13 @@ class Board
       pos[0] < 2 ? color = :white : color = :black
       piece = klass.new(color, pos, self)
       self[pos] = piece
+    end
+  end
+
+  def add_pawns(row)
+    color = row < 2 ? :white : :black
+    @grid[row].each_with_index do |el, i|
+      @grid[row][i] = Pawn.new(color, [row, i], self)
     end
   end
 
