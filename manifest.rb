@@ -28,3 +28,5 @@ require_relative 'stepping_piece'
 require_relative 'sliding_piece'
 # The Rook class.
 require_relative 'rook.rb'
+# The Bishop class
+require_relative 'bishop.rb'

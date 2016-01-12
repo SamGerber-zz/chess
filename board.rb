@@ -18,17 +18,17 @@ class Board
   # places pieces on the board
   # => Currently return value is just the positions of the last placed piece
   def populate
-    add_rooks
+    add_pieces(Rook, [[0, 0], [0, 7], [7, 0], [7, 7]])
+    add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
   end
 
   # Instantiate the appropriate number of rooks and add them to the board,
   # => Currently return value is just an array of the positions where the rook was placed
-  def add_rooks
-    positions = [[0, 0], [0, 7], [7, 0], [7, 7]]
+  def add_pieces(klass, positions)
     positions.each do |pos|
-      pos[0] == 0 ? color = :white : color = :black
-      rook = Rook.new(color, pos, self)
-      self[pos] = rook
+      pos[0] < 2 ? color = :white : color = :black
+      piece = klass.new(color, pos, self)
+      self[pos] = piece
     end
   end
 
