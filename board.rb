@@ -20,6 +20,7 @@ class Board
   def populate
     add_pieces(Rook, [[0, 0], [0, 7], [7, 0], [7, 7]])
     add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
+    add_pieces(Queen, [[0, 4], [7, 4]])
   end
 
   # Instantiate the appropriate number of rooks and add them to the board,

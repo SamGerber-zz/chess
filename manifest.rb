@@ -30,3 +30,5 @@ require_relative 'sliding_piece'
 require_relative 'rook.rb'
 # The Bishop class
 require_relative 'bishop.rb'
+# The Queen class
+require_relative 'queen.rb'
