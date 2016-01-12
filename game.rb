@@ -36,6 +36,7 @@ class Game
     end
   rescue BadInputError
     puts "BadInputError"
+    @board.drop_piece
     retry
 
   end

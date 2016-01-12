@@ -48,12 +48,16 @@ class Board
   # Attempts to place the piece in end_pos, putting it back in start
   # if it is unable to place it in end_pos.
   def move(start, end_pos)
+    raise BadInputError, "No move selected" if start == end_pos
     piece = self[start]
     place_piece(piece, end_pos)
     remove_piece(start)
-    @piece_in_hand = NULL_PIECE
+    drop_piece
   end
 
+  def drop_piece
+    self.piece_in_hand = NULL_PIECE
+  end
 
   # Takes a position in the form [row, column] and returns true if
   # that position on the board contains the null piece
