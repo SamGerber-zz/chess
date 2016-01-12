@@ -16,6 +16,8 @@ class Game
       input = @display.get_input
       unless input.nil?
         start = input
+        @board.piece_in_hand = @board[input]
+        @display.render
         end_pos = @display.get_input
         while end_pos.nil?
           @display.render

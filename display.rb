@@ -25,9 +25,9 @@ class Display
     if [i, j] == @cursor
       bg = :green
     elsif (i + j).even?
-      bg = :magenta
+      bg = @board.piece_in_hand.valid_moves.include?([i,j]) ? :magenta : :blue
     else
-      bg = :red
+      bg = @board.piece_in_hand.valid_moves.include?([i,j]) ? :red : :light_red
     end
     { background: bg, color: @board[[i, j]].color }
   end
@@ -35,5 +35,6 @@ class Display
   def render
     system("clear")
     build_grid.each { |row| puts row.join }
+    p @board.piece_in_hand
   end
 end
