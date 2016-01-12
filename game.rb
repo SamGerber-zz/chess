@@ -3,9 +3,10 @@ require_relative 'display.rb'
 require_relative 'manifest.rb'
 
 class Game
+  attr_reader :board
 
-  def initialize
-    @board = Board.new
+  def initialize(board = Board.new)
+    @board = board
     @display = Display.new(@board)
   end
 
@@ -45,5 +46,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   g = Game.new
-  g.play
+  g.board.move([1, 0], [2, 0])
+  dup_g = Game.new(g.board.dup)
+  dup_g.play
 end

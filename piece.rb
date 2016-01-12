@@ -11,13 +11,17 @@ class Piece
     @has_moved
   end
 
-
-
   def to_s
     " X "
   end
 
   def inspect
-    "#{color} #{self.class} at #{position} (#{has_moved})"
+    "#{color} #{self.class} at #{position}"
+  end
+
+  def dup(board)
+    new_piece = self.class.new(color, position, board)
+    new_piece.has_moved = has_moved
+    new_piece
   end
 end

@@ -15,13 +15,17 @@ class NullPiece < Piece
   end
 
   def inspect
-    "NullPiece"
+    ""
   end
 
   # Give the null piece no valid moves, in case we ever ask a piece
   # for its valid moves
   def valid_moves
     []
+  end
+
+  def dup(board)
+    NullPiece.new()
   end
 
 end

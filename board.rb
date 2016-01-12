@@ -7,12 +7,12 @@ class Board
   attr_reader :grid, :size
   attr_accessor :piece_in_hand
 
-  def initialize(size = 8)
-    @size = size
+  def initialize(dup = false)
+    @size = 8
     @grid = Array.new(size) { Array.new(size) { NULL_PIECE } }
     @taken_pieces = []
     @piece_in_hand = NULL_PIECE
-    populate
+    populate unless dup
   end
 
   # places pieces on the board
@@ -63,7 +63,7 @@ class Board
   # Takes a position in the form [row, column] and returns true if
   # that position on the board contains the null piece
   def empty?(pos)
-    self[pos] == NULL_PIECE
+    self[pos].is_a?(NullPiece)
   end
 
 
@@ -104,6 +104,16 @@ class Board
   def remove_piece(start)
     raise BadInputError, "Tried to remove nonexistent piece at #{start}" if self.empty?(start)
     self[start] = NULL_PIECE
+  end
+
+  def dup
+    new_board = Board.new(true)
+    grid.each.with_index do |row, row_index|
+      row.each.with_index do |square, column_index|
+        new_board[[row_index,column_index]] = square.dup(new_board)
+      end
+    end
+    new_board
   end
 
 end
