@@ -52,6 +52,7 @@ class Board
     piece = self[start]
     place_piece(piece, end_pos)
     remove_piece(start)
+    piece.has_moved = true
     drop_piece
   end
 

@@ -12,10 +12,12 @@ class Pawn < Piece
   # friendly piece
   def valid_moves
     enemy_color = color == :white ? :black : :white
-
-    moves = @translations.map do |translation|
+    translations = @translations.dup
+    translations << (color == :black ? [-2, 0] : [2, 0]) unless has_moved
+    moves = translations.map do |translation|
       [translation[0] + position[0], translation[1] + position[1]]
     end
+
     moves = moves.select do |move|
       @board.in_bounds?(move) &&
         @board.empty?(move)
