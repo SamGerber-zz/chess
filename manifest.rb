@@ -22,6 +22,8 @@ require_relative 'null_piece'
 require_relative 'stepping_piece'
 # The Knight class
 require_relative 'knight.rb'
+# The King class
+require_relative 'king.rb'
 
 
 # The SlidingPiece super class. These are pieces that move by

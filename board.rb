@@ -22,6 +22,7 @@ class Board
     add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
     add_pieces(Queen, [[0, 4], [7, 4]])
     add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
+    add_pieces(King, [[0, 3], [7, 3]])
   end
 
   # Instantiate the appropriate number of rooks and add them to the board,
@@ -42,8 +43,6 @@ class Board
     place_piece(piece, end_pos)
     remove_piece(start)
     @piece_in_hand = NULL_PIECE
-  # rescue BadMoveError
-  #   place_piece(piece, start)
   end
 
 
