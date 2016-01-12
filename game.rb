@@ -19,18 +19,23 @@ class Game
       input = @display.get_input
       unless input.nil? || @board[input].is_a?(NullPiece)
         @board.piece_in_hand = @board[input]
-        @display.render
-        end_pos = @display.get_input
-        while end_pos.nil?
+        begin
           @display.render
           end_pos = @display.get_input
+          while end_pos.nil?
+            @display.render
+            end_pos = @display.get_input
+          end
+          @board.move(input, end_pos)
+        rescue BadMoveError
+          puts "BadMoveError"
+          retry
         end
-        @board.move(input, end_pos)
+
       end
     end
   rescue BadInputError
-    retry
-  rescue BadMoveError
+    puts "BadInputError"
     retry
 
   end

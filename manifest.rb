@@ -20,6 +20,8 @@ require_relative 'null_piece'
 # translating a specific, limited distance, like the King and the
 # Knight. No instances, just behavior to be inherited.
 require_relative 'stepping_piece'
+# The Knight class
+require_relative 'knight.rb'
 
 
 # The SlidingPiece super class. These are pieces that move by
