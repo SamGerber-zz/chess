@@ -116,6 +116,14 @@ class Board
     new_board
   end
 
+  def king_in_checkmate?(color)
+    kings_army = grid.flatten.select do |piece|
+      piece.color == color
+    end
+    kings_army.all? do |piece|
+      piece.filter_moves.empty?
+    end
+  end
 
   def in_check?(start, end_pos)
     toy_board = self.dup

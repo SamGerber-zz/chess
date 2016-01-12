@@ -15,7 +15,7 @@ class Game
   # debugging only, really.
   def play
 
-    loop do
+    until board.king_in_checkmate?(:white) || board.king_in_checkmate?(:black)
       @display.render
       input = @display.get_input
       unless input.nil? || @board[input].is_a?(NullPiece)
