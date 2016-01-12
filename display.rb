@@ -11,9 +11,11 @@ class Display
 
   # Returns the board's grid as a string
   def build_grid
-    @board.grid.map.with_index do |row, index|
-      build_row(row, index)
+    header = [" ", " a ", " b ", " c ", " d ", " e ", " f ", " g ", " h "]
+    grid_display = @board.grid.map.with_index do |row, index|
+      [index + 1] + build_row(row, index)
     end
+    grid_display.unshift(header)
   end
 
   # Returns the i_th row of the board's grid as a string
@@ -35,8 +37,8 @@ class Display
   def colors_for(i, j)
     if [i, j] == @cursor
       bg = @board.piece_in_hand.is_a?(NullPiece) ? :green : :yellow
-    elsif @board.piece_in_hand.filter_moves.include?([i,j])
-      bg = :white 
+    # elsif @board.piece_in_hand.filter_moves.include?([i,j])
+    #   bg = :white
     elsif (i + j).even?
       bg = @board.piece_in_hand.possible_moves.include?([i,j]) ? :green : :blue
     elsif (i + j).odd?
@@ -50,6 +52,14 @@ class Display
   def render
     system("clear")
     build_grid.each { |row| puts row.join }
-    p @board.piece_in_hand
+    puts footer
   end
+
+  def footer
+    footer = []
+    footer << "#{@board.current_color} is attempting to move #{@board.piece_in_hand.inspect}"
+    footer << "#{@board.current_color} King is in check!!!" if @board.king_in_check?(@board.current_color)
+    footer.join("\n")
+  end
+
 end

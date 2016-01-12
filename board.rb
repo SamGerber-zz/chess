@@ -5,7 +5,7 @@ class Board
   NULL_PIECE = NullPiece.new()
 
   attr_reader :grid, :size
-  attr_accessor :piece_in_hand
+  attr_accessor :piece_in_hand, :current_color
 
   def initialize(dup = false)
     @size = 8
@@ -13,6 +13,7 @@ class Board
     @taken_pieces = []
     @piece_in_hand = NULL_PIECE
     populate unless dup
+    @current_color = :white
   end
 
   # places pieces on the board
@@ -20,9 +21,9 @@ class Board
   def populate
     add_pieces(Rook, [[0, 0], [0, 7], [7, 0], [7, 7]])
     add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
-    add_pieces(Queen, [[0, 4], [7, 4]])
+    add_pieces(King, [[0, 4], [7, 4]])
     add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
-    add_pieces(King, [[0, 3], [7, 3]])
+    add_pieces(Queen, [[0, 3], [7, 3]])
     add_pawns(1)
     add_pawns(6)
   end

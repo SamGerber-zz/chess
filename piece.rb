@@ -1,3 +1,4 @@
+
 class Piece
   attr_reader :color
   attr_accessor :position, :has_moved
@@ -16,7 +17,8 @@ class Piece
   end
 
   def inspect
-    "#{color} #{self.class} at #{position}"
+    letters = %w(a b c d e f g h)
+    "#{self} at (#{letters[position[1]]}, #{position[0] + 1})"
   end
 
   def dup(board)
