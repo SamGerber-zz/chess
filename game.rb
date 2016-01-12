@@ -3,7 +3,7 @@ require_relative 'display.rb'
 require_relative 'manifest.rb'
 
 class Game
-  attr_reader :board
+  attr_reader :board, :display
 
   def initialize(board = Board.new)
     @board = board
@@ -14,32 +14,33 @@ class Game
   # Infinite loop for moving pieces. Currently sort of a mess and for
   # debugging only, really.
   def play
-
     until board.king_in_checkmate?(:white) || board.king_in_checkmate?(:black)
-      @display.render
-      input = @display.get_input
-      unless input.nil? || @board[input].is_a?(NullPiece)
+      display.render
+      input = display.get_input
+      unless valid_input?(input)
         @board.piece_in_hand = @board[input]
         begin
-          @display.render
-          end_pos = @display.get_input
+          display.render
+          end_pos = display.get_input
           while end_pos.nil?
-            @display.render
-            end_pos = @display.get_input
+            display.render
+            end_pos = display.get_input
           end
           @board.move(input, end_pos)
         rescue BadMoveError
           puts "BadMoveError"
           retry
         end
-
       end
     end
   rescue BadInputError
     puts "BadInputError"
     @board.drop_piece
     retry
+  end
 
+  def valid_input?(input)
+    input.nil? || @board.current_player != @board[input].color
   end
 
 end

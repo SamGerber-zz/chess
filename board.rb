@@ -5,7 +5,7 @@ class Board
   NULL_PIECE = NullPiece.new()
 
   attr_reader :grid, :size
-  attr_accessor :piece_in_hand, :current_color
+  attr_accessor :piece_in_hand, :current_player
 
   def initialize(dup = false)
     @size = 8
@@ -13,7 +13,7 @@ class Board
     @taken_pieces = []
     @piece_in_hand = NULL_PIECE
     populate unless dup
-    @current_color = :white
+    @current_player = :white
   end
 
   # places pieces on the board
@@ -55,6 +55,7 @@ class Board
     remove_piece(start)
     piece.has_moved = true
     drop_piece
+    switch_players!
   end
 
   def drop_piece
@@ -163,6 +164,10 @@ class Board
       end
     end
     nil
+  end
+
+  def switch_players!
+    self.current_player = current_player== :white ? :black : :white
   end
 
 end

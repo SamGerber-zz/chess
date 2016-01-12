@@ -35,17 +35,19 @@ class Display
   # -Red for white squares,
   # -Light Red for white squares that are valid moves of Piece in Hand
   def colors_for(i, j)
+    mode = :default
     if [i, j] == @cursor
       bg = @board.piece_in_hand.is_a?(NullPiece) ? :green : :yellow
+      # mode = :blink
     # elsif @board.piece_in_hand.filter_moves.include?([i,j])
     #   bg = :white
     elsif (i + j).even?
-      bg = @board.piece_in_hand.possible_moves.include?([i,j]) ? :green : :blue
+      bg = @board.piece_in_hand.filter_moves.include?([i,j]) ? :green : :blue
     elsif (i + j).odd?
-      bg = @board.piece_in_hand.possible_moves.include?([i,j]) ? :light_green : :light_red
+      bg = @board.piece_in_hand.filter_moves.include?([i,j]) ? :light_green : :light_red
     end
 
-    { background: bg, color: @board[[i, j]].color }
+    { background: bg, color: @board[[i, j]].color, mode: mode }
   end
 
   # Outputs the rendered board to STDOUT
@@ -57,8 +59,8 @@ class Display
 
   def footer
     footer = []
-    footer << "#{@board.current_color} is attempting to move #{@board.piece_in_hand.inspect}"
-    footer << "#{@board.current_color} King is in check!!!" if @board.king_in_check?(@board.current_color)
+    footer << "#{@board.current_player} is attempting to move #{@board.piece_in_hand.inspect}"
+    footer << "#{@board.current_player} King is in check!!!" if @board.king_in_check?(@board.current_player)
     footer.join("\n")
   end
 
