@@ -46,7 +46,7 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   g = Game.new
-  g.board.move([1, 0], [2, 0])
-  dup_g = Game.new(g.board.dup)
-  dup_g.play
+  # g.board.move([1, 0], [2, 0])
+  # dup_g = Game.new(g.board.dup)
+  g.play
 end

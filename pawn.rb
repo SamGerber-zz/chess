@@ -10,7 +10,7 @@ class Pawn < Piece
   # Returns an array of valid moves by checking whether each possible
   # direction is within the bounds of the board and occupied by a
   # friendly piece
-  def valid_moves
+  def possible_moves
     enemy_color = color == :white ? :black : :white
 
     moves = []

@@ -11,7 +11,7 @@ class SlidingPiece < Piece
   # Returns an array of valid moves by iteratively stepping out in
   # each possible direction until it reaches a board boundary or
   # another piece.
-  def valid_moves
+  def possible_moves
     moves = []
 
     @directions.each do |direction|

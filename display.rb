@@ -35,11 +35,14 @@ class Display
   def colors_for(i, j)
     if [i, j] == @cursor
       bg = @board.piece_in_hand.is_a?(NullPiece) ? :green : :yellow
+    elsif @board.piece_in_hand.filter_moves.include?([i,j])
+      bg = :white 
     elsif (i + j).even?
-      bg = @board.piece_in_hand.valid_moves.include?([i,j]) ? :green : :blue
-    else
-      bg = @board.piece_in_hand.valid_moves.include?([i,j]) ? :light_green : :light_red
+      bg = @board.piece_in_hand.possible_moves.include?([i,j]) ? :green : :blue
+    elsif (i + j).odd?
+      bg = @board.piece_in_hand.possible_moves.include?([i,j]) ? :light_green : :light_red
     end
+
     { background: bg, color: @board[[i, j]].color }
   end
 

@@ -20,7 +20,7 @@ class NullPiece < Piece
 
   # Give the null piece no valid moves, in case we ever ask a piece
   # for its valid moves
-  def valid_moves
+  def possible_moves
     []
   end
 

@@ -10,7 +10,7 @@ class SteppingPiece < Piece
   # Returns an array of valid moves by checking whether each possible
   # translation is within the bounds of the board and occupied by a
   # friendly piece
-  def valid_moves
+  def possible_moves
     moves = @translations.map do |translation|
       [translation[0] + position[0], translation[1] + position[1]]
     end

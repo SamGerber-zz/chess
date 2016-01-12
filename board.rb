@@ -93,7 +93,7 @@ class Board
   # Raises a BadMoveError if the move is invalid
   # Remembers taken piece if a piece was taken.
   def place_piece(piece, end_pos)
-    raise BadMoveError, "Cannot move #{piece.class} to #{end_pos}" unless piece.valid_moves.include?(end_pos)
+    raise BadMoveError, "Cannot move #{piece.class} to #{end_pos}" unless piece.filter_moves.include?(end_pos)
     @taken_pieces << self[end_pos] unless self.empty?(end_pos)
     self[end_pos] = piece
     piece.position = end_pos
@@ -114,6 +114,46 @@ class Board
       end
     end
     new_board
+  end
+
+
+  def in_check?(start, end_pos)
+    toy_board = self.dup
+    piece = toy_board[start]
+    toy_board.move!(start, end_pos)
+    toy_board.king_in_check?(piece.color)
+  end
+
+  def move!(start, end_pos)
+    self[end_pos] = self[start]
+    self[end_pos].position = end_pos
+    self[start] = NullPiece.new()
+  end
+
+  def king_in_check?(color)
+    # Find enemy color
+    enemy_color = color == :white ? :black : :white
+    # Find your king's position
+    king_position = find_king(color)
+    # Increment over board
+    grid.each do |row|
+      row.each do |piece|
+        # For all pieces of enemy color compare valid moves to king's position
+        # Return true if included
+        return true if piece.color == enemy_color && piece.possible_moves.include?(king_position)
+      end
+    end
+    # On end return false
+    false
+  end
+
+  def find_king(color)
+    grid.each do |row|
+      row.each do |piece|
+        return piece.position if piece.is_a?(King) && piece.color == color
+      end
+    end
+    nil
   end
 
 end
