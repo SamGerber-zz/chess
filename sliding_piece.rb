@@ -7,6 +7,10 @@ class SlidingPiece < Piece
     super(color, position, board)
   end
 
+
+  # Returns an array of valid moves by iteratively stepping out in
+  # each possible direction until it reaches a board boundary or
+  # another piece.
   def valid_moves
     moves = []
 

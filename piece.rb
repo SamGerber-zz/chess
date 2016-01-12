@@ -1,5 +1,5 @@
 class Piece
-  attr_reader :name, :color
+  attr_reader :color
   attr_accessor :position
 
   def initialize(color, position, board)
@@ -9,5 +9,9 @@ class Piece
 
   def to_s
     " X "
+  end
+
+  def inspect
+    "#{color} #{self.class} at #{position}"
   end
 end

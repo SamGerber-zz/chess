@@ -9,13 +9,15 @@ class Game
     @display = Display.new(@board)
   end
 
+
+  # Infinite loop for moving pieces. Currently sort of a mess and for
+  # debugging only, really.
   def play
 
     loop do
       @display.render
       input = @display.get_input
-      unless input.nil?
-        start = input
+      unless input.nil? || @board[input].is_a?(NullPiece)
         @board.piece_in_hand = @board[input]
         @display.render
         end_pos = @display.get_input
@@ -23,7 +25,7 @@ class Game
           @display.render
           end_pos = @display.get_input
         end
-        @board.move(start, end_pos)
+        @board.move(input, end_pos)
       end
     end
   rescue BadInputError
@@ -33,4 +35,9 @@ class Game
 
   end
 
+end
+
+if __FILE__ == $PROGRAM_NAME
+  g = Game.new
+  g.play
 end
