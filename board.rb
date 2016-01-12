@@ -2,7 +2,7 @@ require_relative 'manifest'
 
 class Board
 
-  NULL_PIECE = Piece.new(:null, :null, [0,0], self)
+  NULL_PIECE = NullPiece.new()
 
   attr_reader :grid, :size
 
@@ -10,11 +10,26 @@ class Board
     @size = size
     @grid = Array.new(size) { Array.new(size) { NULL_PIECE } }
     @taken_pieces = []
+    populate
+  end
+
+  def populate
+    add_rooks
+  end
+
+  def add_rooks
+    positions = [[0, 0], [0, 7], [7, 0], [7, 7]]
+    positions.each do |pos|
+      pos[0] == 0 ? color = :white : color = :black
+      rook = Rook.new(color, pos, self)
+      self[pos] = rook
+    end
   end
 
   def move(start, end_pos)
-    piece = remove_piece(start)
+    piece = self[start]
     place_piece(piece, end_pos)
+    remove_piece(start)
   rescue BadMoveError
     place_piece(piece, start)
   end
@@ -41,13 +56,12 @@ class Board
     raise BadMoveError, "Cannot move #{piece.name} to #{end_pos}" unless piece.valid_moves.include?(end_pos)
     @taken_pieces << self[end_pos] unless self.empty?(end_pos)
     self[end_pos] = piece
+    piece.position = end_pos
   end
 
   def remove_piece(start)
     raise BadInputError, "Tried to remove nonexistent piece at #{start}" if self.empty?(start)
-    piece = self[start]
     self[start] = NULL_PIECE
-    piece
   end
 
 end

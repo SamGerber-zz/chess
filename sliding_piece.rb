@@ -2,9 +2,9 @@ require_relative 'piece'
 
 class SlidingPiece < Piece
 
-  def initialize(name, color, position, directions, board)
+  def initialize(color, position, directions, board)
     @directions = directions
-    super(name, color, position, board)
+    super(color, position, board)
   end
 
   def valid_moves

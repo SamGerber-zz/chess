@@ -2,9 +2,9 @@ require_relative 'piece'
 
 class SteppingPiece < Piece
 
-  def initialize(name, color, position, translations, board)
+  def initialize(color, position, translations, board)
     @translations = translations
-    super(name, color, position, board)
+    super(color, position, board)
   end
 
   def valid_moves

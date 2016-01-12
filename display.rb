@@ -29,7 +29,7 @@ class Display
     else
       bg = :red
     end
-    { background: bg, color: :white }
+    { background: bg, color: @board[[i, j]].color }
   end
 
   def render

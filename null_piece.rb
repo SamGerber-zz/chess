@@ -3,7 +3,7 @@ require_relative 'piece'
 class NullPiece < Piece
 
   def initialize
-
+    @color = :yellow
   end
 
   def to_s
@@ -12,6 +12,10 @@ class NullPiece < Piece
 
   def inspect
     "NullPiece"
+  end
+
+  def valid_moves
+    []
   end
 
 end

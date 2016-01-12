@@ -1,5 +1,6 @@
 require_relative 'board.rb'
 require_relative 'display.rb'
+require_relative 'manifest.rb'
 
 class Game
 
@@ -23,6 +24,10 @@ class Game
         @board.move(start, end_pos)
       end
     end
+  rescue BadInputError
+    retry
+  rescue BadMoveError
+    retry
 
   end
 
