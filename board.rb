@@ -20,10 +20,10 @@ class Board
   # => Currently return value is just the positions of the last placed piece
   def populate
     add_pieces(Rook, [[0, 0], [0, 7], [7, 0], [7, 7]])
-    #add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
+    add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
     add_pieces(King, [[0, 4], [7, 4]])
-    #add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
-    #add_pieces(Queen, [[0, 3], [7, 3]])
+    add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
+    add_pieces(Queen, [[0, 3], [7, 3]])
     add_pawns(1)
     add_pawns(6)
   end
