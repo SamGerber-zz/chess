@@ -20,6 +20,9 @@ class Game
       @board.piece_in_hand = @board[input]
       make_move(input)
     end
+  rescue BadInputError
+    @board.drop_piece
+    retry
   end
 
 
@@ -40,9 +43,6 @@ class Game
       start = display.get_input
     end
     start
-  rescue BadInputError
-    @board.drop_piece
-    retry
   end
 
   def get_end_point
