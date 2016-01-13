@@ -32,7 +32,7 @@ class Pawn < Piece
   end
 
   def to_s
-    " ♟ "
+    color == :black ? " ♟ " : " ♙ "
   end
 
 end

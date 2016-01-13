@@ -7,6 +7,6 @@ class Queen < SlidingPiece
   end
 
   def to_s
-    " ♛ "
+    color == :black ? " ♛ " : " ♕ "
   end
 end

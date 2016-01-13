@@ -4,7 +4,7 @@ class Board
 
   NULL_PIECE = NullPiece.new()
 
-  attr_reader :grid, :size
+  attr_reader :grid, :size, :taken_pieces
   attr_accessor :piece_in_hand, :current_player
 
   def initialize(dup = false)
