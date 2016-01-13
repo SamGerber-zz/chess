@@ -16,30 +16,46 @@ class Game
   def play
     until board.king_in_checkmate?(:white) || board.king_in_checkmate?(:black)
       display.render
-      input = display.get_input
-      unless valid_input?(input)
-        @board.piece_in_hand = @board[input]
-        begin
-          display.render
-          end_pos = display.get_input
-          while end_pos.nil?
-            display.render
-            end_pos = display.get_input
-          end
-          @board.move(input, end_pos)
-        rescue BadMoveError
-          puts "BadMoveError"
-          retry
-        end
-      end
+      input = get_start
+      @board.piece_in_hand = @board[input]
+      make_move(input)
     end
+  end
+
+
+  def make_move(input)
+    begin
+      end_pos = get_end_point
+      @board.move(input, end_pos)
+    rescue BadMoveError
+      retry
+    end
+  end
+
+  def get_start
+    display.render
+    start = display.get_input
+    while invalid_input?(start)
+      display.render
+      start = display.get_input
+    end
+    start
   rescue BadInputError
-    puts "BadInputError"
     @board.drop_piece
     retry
   end
 
-  def valid_input?(input)
+  def get_end_point
+    display.render
+    end_pos = display.get_input
+    while end_pos.nil?
+      display.render
+      end_pos = display.get_input
+    end
+    end_pos
+  end
+
+  def invalid_input?(input)
     input.nil? || @board.current_player != @board[input].color
   end
 
