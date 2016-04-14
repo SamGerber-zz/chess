@@ -47,8 +47,30 @@ module Cursorable
     when :left, :right, :down, :up
       update_pos(MOVES[key])
       nil
+    when :tab
+      @incrementer += 1
+      nil
     else
       puts key
+    end
+  end
+
+  def get_promotion_input
+    key = KEYMAP[read_char]
+    handle_promotion_key(key)
+  end
+
+  def handle_promotion_key(key)
+    case key
+    when :ctrl_c
+      exit 0
+    when :return, :space
+      @incrementer
+    when :tab
+      @incrementer += 1
+      nil
+    else
+      nil
     end
   end
 
