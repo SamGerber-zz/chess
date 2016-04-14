@@ -1,10 +1,10 @@
 require_relative 'piece.rb'
 
 class Pawn < Piece
-  def initialize(color, position, board)
-    @directions = color == :black ? [[-1, 0]] : [[1, 0]]
-    @captures = color == :black ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
-    super(color, position, board)
+  def initialize(color, position, board, move_history = nil)
+    @directions = color == :white ? [[-1, 0]] : [[1, 0]]
+    @captures = color == :white ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]]
+    super(color, position, board, move_history)
   end
 
   # Returns an array of valid moves by checking whether each possible
