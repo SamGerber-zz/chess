@@ -11,10 +11,11 @@ class Pawn < Piece
   # direction is within the bounds of the board and occupied by a
   # friendly piece
   def possible_moves
-    moves = []
-    calculate_directions!(moves)
-    calculate_captures!(moves)
-    moves
+    return @possible_moves if @possible_moves
+    @possible_moves = []
+    calculate_directions!(@possible_moves)
+    calculate_captures!(@possible_moves)
+    @possible_moves
   end
 
   def to_s
@@ -34,8 +35,6 @@ class Pawn < Piece
   end
 
   def calculate_captures!(moves)
-    enemy_color = color == :white ? :black : :white
-
     @captures.each do |capture|
       move = [capture[0] + position[0], capture[1] + position[1]]
       moves << move if @board.in_bounds?(move) && @board[move].color == enemy_color

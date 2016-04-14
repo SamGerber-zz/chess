@@ -1,10 +1,11 @@
 
 class Piece
-  attr_reader :color
+  attr_reader :color, :enemy_color
   attr_accessor :position, :has_moved, :move_history
 
   def initialize(color, position, board, move_history = nil)
-  @color, @position, @board = color, position, board
+    @color, @position, @board = color, position, board
+    @enemy_color = (color == :white) ? :black : :white
     @has_moved = false
     @move_history ||= [position]
   end
@@ -31,10 +32,16 @@ class Piece
   # Passed a list of possible moves and return an edited list of valid
   # moves (ones that don't expose own king to check)
   def filter_moves
-    moves = possible_moves
-    moves.reject do |move|
+    @filter_moves ||= possible_moves.reject do |move|
       @board.in_check?(position, move)
     end
   end
 
+  def clear_moves
+    @filter_moves = @possible_moves = nil
+  end
+
+  def enemy?(other_piece)
+    other_piece.color == enemy_color
+  end
 end
