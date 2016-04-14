@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative 'board.rb'
 require_relative 'display.rb'
 require_relative 'manifest.rb'
