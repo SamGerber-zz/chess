@@ -21,25 +21,25 @@ Use the arrow keys or WASD to move the cursor and space/enter to select/deselect
 
 The game uses the colorize gem and cursorable module to create a good-looking board:
 
-![chess-opening](./doc/opening.gif)
+![chess-opening](./assets/opening.gif)
 
 ### Utility
 
 Selected pieces show their possible moves, selecting an impossible move drops the piece so a new one can be selected.
 
-![moving](./doc/moving.gif)
+![moving](./assets/moving.gif)
 
 ### Castling
 
 The logic for castling is included with restrictions on castling through, into, or out of check:
 
-![castling](./doc/castling.gif)
+![castling](./assets/castling.gif)
 
 ### Pawn Promotion
 
 When a pawn reaches the other end of the board it can be promoted to a rook, bishop, knight, or queen:
 
-![promotion](./doc/promotion.gif)
+![promotion](./assets/promotion.gif)
 
 ## Refactoring
 
@@ -47,7 +47,7 @@ When a pawn reaches the other end of the board it can be promoted to a rook, bis
 
 Recently, the game was looking like this:
 
-![old_way](./doc/old_way.gif)
+![old_way](./assets/old_way.gif)
 
 Every time we try to move a piece, too many calculations are performed and the game noticeably pauses between renders, where it just displays a black screen. This stinks.
 
@@ -57,7 +57,7 @@ There were several bottle-necks that needed cleaning up to get the gameplay to t
 
 Every time we select a piece, we want to show its possible moves. In chess, it's illegal to move in such a way that you leave your king in check. That's why each of the pieces selected in the GIF below only show moves that protect the king from check.
 
-![limit_moves](./doc/limit_moves.gif)
+![limit_moves](./assets/limit_moves.gif)
 
 To accomplish this, we first find all possible moves and then filter out the moves that would leave the king in check.
 
