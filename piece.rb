@@ -1,11 +1,12 @@
 
 class Piece
   attr_reader :color
-  attr_accessor :position, :has_moved
+  attr_accessor :position, :has_moved, :move_history
 
-  def initialize(color, position, board)
+  def initialize(color, position, board, move_history = nil)
   @color, @position, @board = color, position, board
     @has_moved = false
+    @move_history ||= [position]
   end
 
   def has_moved?
@@ -18,11 +19,11 @@ class Piece
 
   def inspect
     letters = %w(a b c d e f g h)
-    "#{self} at (#{letters[position[1]]}, #{position[0] + 1})"
+    "#{self} at (#{letters[position[1]]}, #{8 - position[0]})"
   end
 
   def dup(board)
-    new_piece = self.class.new(color, position.dup, board)
+    new_piece = self.class.new(color, position.dup, board, move_history)
     new_piece.has_moved = has_moved
     new_piece
   end
