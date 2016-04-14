@@ -14,11 +14,21 @@ class Game
   # Infinite loop for moving pieces. Currently sort of a mess and for
   # debugging only, really.
   def play
-    until board.king_in_checkmate?(:white) || board.king_in_checkmate?(:black)
+    until board.king_in_checkmate?(:white) || board.king_in_checkmate?(:black) || board.stalemate?
       display.render
       input = get_start
       @board.piece_in_hand = @board[input]
       make_move(input)
+      @board.switch_players!
+    end
+    display.render
+    board.king_in_checkmate?(:white)
+    if board.king_in_checkmate?(:white)
+      puts "White is in Checkmate\nBlack wins!"
+    elsif board.king_in_checkmate?(:white)
+      puts "Black is in Checkmate\nWhite wins!"
+    else
+      puts "Stalemate!"
     end
   rescue BadInputError
     @board.drop_piece
@@ -29,10 +39,29 @@ class Game
   def make_move(input)
     begin
       end_pos = get_end_point
-      @board.move(input, end_pos)
+      piece = @board.move(input, end_pos)
+      if piece.is_a?(Pawn) && [0, 7].include?(piece.position[0])
+        promote_pawn(piece)
+      end
+      @board.drop_piece
     rescue BadMoveError
       retry
     end
+  end
+
+  def promote_pawn(pawn)
+    position = pawn.position
+    display.render(true)
+    current_incrementer = display.incrementer
+    pieces = [Queen, Rook, Bishop, Knight]
+    loop do
+      @board.piece_in_hand = pieces[(display.incrementer - current_incrementer) % 4].new(pawn.color, position, @board)
+      @board[position] = @board.piece_in_hand
+      display.render(true)
+      break if display.get_promotion_input
+    end
+    raise BadInputError if @board[position].is_a? Pawn
+    @board.drop_piece
   end
 
   def get_start
