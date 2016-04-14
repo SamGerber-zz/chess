@@ -5,7 +5,7 @@ class Rook < Piece
   include SlidingPiece
 
   def initialize(color, position, board, move_history = nil)
-    @directions = [[-1, 0], [1, 0], [0, 1], [0, -1]]
+    @directions = SlidingPiece::RANK_AND_FILE
     super(color, position, board, move_history)
   end
 

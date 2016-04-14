@@ -1,20 +1,13 @@
 require_relative 'piece'
 require_relative 'stepping_piece'
+require_relative 'sliding_piece'
 
 class King < Piece
   include SteppingPiece
+  include SlidingPiece
 
   def initialize(color, position, board, move_history = nil)
-    @translations = [
-      [-1, -1],
-      [1, 1],
-      [-1, 1],
-      [1, -1],
-      [-1, 0],
-      [1, 0],
-      [0, 1],
-      [0, -1]
-    ]
+    @translations = SteppingPiece::KING
     super(color, position, board, move_history)
   end
 
@@ -53,5 +46,9 @@ class King < Piece
 
   def to_s
     color == :black ? " ♚ " : " ♔ "
+  end
+
+  def in_check?
+
   end
 end

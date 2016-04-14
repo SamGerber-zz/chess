@@ -5,7 +5,7 @@ class Bishop < Piece
   include SlidingPiece
 
   def initialize(color, position, board, move_history = nil)
-    @directions = [[-1, -1], [1, 1], [-1, 1], [1, -1]]
+    @directions = SlidingPiece::DIAGONAL
     super(color, position, board, move_history)
   end
 

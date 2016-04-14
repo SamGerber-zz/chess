@@ -5,16 +5,7 @@ class Knight < Piece
   include SteppingPiece
 
   def initialize(color, position, board, move_history = nil)
-    @translations = [
-      [1, 2],
-      [-1, 2],
-      [1, -2],
-      [-1, -2],
-      [2, 1],
-      [-2, 1],
-      [2, -1],
-      [-2, -1]
-    ]
+    @translations = SteppingPiece::KNIGHT
     super(color, position, board, move_history = nil)
   end
 

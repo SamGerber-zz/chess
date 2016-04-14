@@ -1,6 +1,8 @@
 # require_relative 'piece'
 
 module SlidingPiece
+  DIAGONAL = [[-1, -1], [1, 1], [-1, 1], [1, -1]]
+  RANK_AND_FILE = [[-1, 0], [1, 0], [0, 1], [0, -1]]
   #
   # def initialize(color, position, directions, board, move_history = nil)
   #   @directions = directions
@@ -11,10 +13,11 @@ module SlidingPiece
   # Returns an array of valid moves by iteratively stepping out in
   # each possible direction until it reaches a board boundary or
   # another piece.
-  def possible_slides
+  def possible_slides(directions = nil)
     moves = []
+    directions ||= @directions
 
-    @directions.each do |direction|
+    directions.each do |direction|
       move = position
       loop do
         move = [direction[0] + move[0], direction[1] + move[1]]
