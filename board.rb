@@ -19,27 +19,27 @@ class Board
   # places pieces on the board
   # => Currently return value is just the positions of the last placed piece
   def populate
-    add_pieces(Rook, [[0, 0], [0, 7], [7, 0], [7, 7]])
-    add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
+    # add_pieces(Rook, [[0, 0], [0, 7], [7, 0], [7, 7]])
+    # add_pieces(Bishop, [[0, 2], [0, 5], [7, 2], [7, 5]])
     add_pieces(King, [[0, 4], [7, 4]])
-    add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
-    add_pieces(Queen, [[0, 3], [7, 3]])
-    add_pawns(1)
-    add_pawns(6)
+    # add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
+    # add_pieces(Queen, [[0, 3], [7, 3]])
+    # add_pawns(1)
+    # add_pawns(6)
   end
 
   # Instantiate the appropriate number of rooks and add them to the board,
   # => Currently return value is just an array of the positions where the rook was placed
   def add_pieces(klass, positions)
     positions.each do |pos|
-      pos[0] < 2 ? color = :white : color = :black
+      pos[0] < 2 ? color = :black : color = :white
       piece = klass.new(color, pos, self)
       self[pos] = piece
     end
   end
 
   def add_pawns(row)
-    color = row < 2 ? :white : :black
+    color = row < 2 ? :black : :white
     @grid[row].each_with_index do |el, i|
       @grid[row][i] = Pawn.new(color, [row, i], self)
     end
@@ -54,9 +54,9 @@ class Board
     place_piece(piece, end_pos)
     remove_piece(start)
     piece.has_moved = true
+    piece.move_history << end_pos
     handle_castle!(start, end_pos)
-    drop_piece
-    switch_players!
+    piece
   end
 
   def handle_castle!(start, end_pos)
@@ -133,8 +133,19 @@ class Board
   end
 
   def king_in_checkmate?(color)
+    return false unless king_in_check?(color)
     kings_army = grid.flatten.select do |piece|
       piece.color == color
+    end
+    kings_army.all? do |piece|
+      piece.filter_moves.empty?
+    end
+  end
+
+  def stalemate?
+    return false if king_in_check?(@current_player)
+    kings_army = grid.flatten.select do |piece|
+      piece.color == @current_player
     end
     kings_army.all? do |piece|
       piece.filter_moves.empty?
@@ -160,14 +171,15 @@ class Board
     # Find your king's position
     king_position = find_king(color)
     # Increment over board
+    can_attack?(king_position, enemy_color)
+  end
+
+  def can_attack?(position, attacker_color)
     grid.each do |row|
       row.each do |piece|
-        # For all pieces of enemy color compare valid moves to king's position
-        # Return true if included
-        return true if piece.color == enemy_color && piece.possible_moves.include?(king_position)
+        return true if piece.color == attacker_color && piece.possible_moves.include?(position)
       end
     end
-    # On end return false
     false
   end
 
