@@ -47,6 +47,9 @@ module Cursorable
     when :left, :right, :down, :up
       update_pos(MOVES[key])
       nil
+    when :escape
+      cancel if respond_to?(cancel)
+      nil
     when :tab
       @incrementer += 1
       nil

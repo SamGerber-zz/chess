@@ -25,8 +25,8 @@ class Board
     add_pieces(King, [[0, 4], [7, 4]])
     add_pieces(Knight, [[0, 1], [0, 6], [7, 1], [7, 6]])
     add_pieces(Queen, [[0, 3], [7, 3]])
-    # add_pawns(1)
-    # add_pawns(6)
+    add_pawns(1)
+    add_pawns(6)
   end
 
   # Instantiate the appropriate number of rooks and add them to the board,
