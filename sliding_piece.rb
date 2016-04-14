@@ -13,10 +13,10 @@ module SlidingPiece
   # Returns an array of valid moves by iteratively stepping out in
   # each possible direction until it reaches a board boundary or
   # another piece.
-  def possible_slides(directions = nil)
+  def possible_slides(directions = nil, position = nil)
     moves = []
     directions ||= @directions
-
+    position ||= self.position
     directions.each do |direction|
       move = position
       loop do
@@ -29,6 +29,8 @@ module SlidingPiece
 
     moves
   end
-
-  alias_method :possible_moves, :possible_slides
+  
+  def possible_moves
+    @possible_moves ||= possible_slides
+  end
 end

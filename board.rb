@@ -4,7 +4,7 @@ class Board
 
   NULL_PIECE = NullPiece.new()
 
-  attr_reader :grid, :size, :taken_pieces
+  attr_reader :grid, :size, :taken_pieces, :kings
   attr_accessor :piece_in_hand, :current_player
 
   def initialize(dup = false)
@@ -12,6 +12,7 @@ class Board
     @grid = Array.new(size) { Array.new(size) { NULL_PIECE } }
     @taken_pieces = []
     @piece_in_hand = NULL_PIECE
+    @kings = {}
     populate unless dup
     @current_player = :white
   end
@@ -32,9 +33,10 @@ class Board
   # => Currently return value is just an array of the positions where the rook was placed
   def add_pieces(klass, positions)
     positions.each do |pos|
-      pos[0] < 2 ? color = :black : color = :white
+      color = (pos[0] < 2) ? :black : :white
       piece = klass.new(color, pos, self)
       self[pos] = piece
+      @kings[color] = piece if piece.is_a?(King)
     end
   end
 
@@ -126,7 +128,9 @@ class Board
     new_board = Board.new(true)
     grid.each.with_index do |row, row_index|
       row.each.with_index do |square, column_index|
-        new_board[[row_index,column_index]] = square.dup(new_board)
+        new_square = square.dup(new_board)
+        new_board[[row_index, column_index]] = new_square
+        new_board.kings[new_square.color] = new_square if new_square.is_a?(King)
       end
     end
     new_board
@@ -166,33 +170,19 @@ class Board
   end
 
   def king_in_check?(color)
-    # Find enemy color
-    enemy_color = color == :white ? :black : :white
-    # Find your king's position
-    king_position = find_king(color)
-    # Increment over board
-    can_attack?(king_position, enemy_color)
-  end
-
-  def can_attack?(position, attacker_color)
-    grid.each do |row|
-      row.each do |piece|
-        return true if piece.color == attacker_color && piece.possible_moves.include?(position)
-      end
-    end
-    false
+    return kings[color].in_check?
   end
 
   def find_king(color)
-    grid.each do |row|
-      row.each do |piece|
-        return piece.position if piece.is_a?(King) && piece.color == color
-      end
-    end
-    nil
+    kings[color].position
   end
 
   def switch_players!
+    grid.each do |row|
+      row.each do |square|
+        square.clear_moves
+      end
+    end
     self.current_player = current_player== :white ? :black : :white
   end
 

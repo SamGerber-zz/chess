@@ -11,8 +11,9 @@ module SteppingPiece
   # Returns an array of valid moves by checking whether each possible
   # translation is within the bounds of the board and occupied by a
   # friendly piece
-  def possible_steps(translations = nil)
+  def possible_steps(translations = nil, position = nil)
     translations ||= @translations
+    position ||= self.position
     moves = translations.map do |translation|
       [translation[0] + position[0], translation[1] + position[1]]
     end
@@ -22,5 +23,7 @@ module SteppingPiece
     end
   end
 
-  alias_method :possible_moves, :possible_steps
+  def possible_moves
+    @possible_moves ||= possible_steps
+  end
 end

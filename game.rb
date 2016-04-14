@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative 'board.rb'
 require_relative 'display.rb'
 require_relative 'manifest.rb'
@@ -22,31 +23,26 @@ class Game
       @board.switch_players!
     end
     display.render
-    board.king_in_checkmate?(:white)
     if board.king_in_checkmate?(:white)
       puts "White is in Checkmate\nBlack wins!"
-    elsif board.king_in_checkmate?(:white)
+    elsif board.king_in_checkmate?(:black)
       puts "Black is in Checkmate\nWhite wins!"
     else
       puts "Stalemate!"
     end
-  rescue BadInputError
+  rescue BadInputError, BadMoveError
     @board.drop_piece
     retry
   end
 
 
   def make_move(input)
-    begin
       end_pos = get_end_point
       piece = @board.move(input, end_pos)
       if piece.is_a?(Pawn) && [0, 7].include?(piece.position[0])
         promote_pawn(piece)
       end
       @board.drop_piece
-    rescue BadMoveError
-      retry
-    end
   end
 
   def promote_pawn(pawn)
