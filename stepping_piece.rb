@@ -1,16 +1,16 @@
-require_relative 'piece'
+# require_relative 'piece'
 
-class SteppingPiece < Piece
+module SteppingPiece
 
-  def initialize(color, position, translations, board, move_history = nil)
-    @translations = translations
-    super(color, position, board, move_history)
-  end
+  # def initialize(color, position, translations, board, move_history = nil)
+  #   @translations = translations
+  #   super(color, position, board, move_history)
+  # end
 
   # Returns an array of valid moves by checking whether each possible
   # translation is within the bounds of the board and occupied by a
   # friendly piece
-  def possible_moves
+  def possible_steps
     moves = @translations.map do |translation|
       [translation[0] + position[0], translation[1] + position[1]]
     end
@@ -20,4 +20,5 @@ class SteppingPiece < Piece
     end
   end
 
+  alias_method :possible_moves, :possible_steps
 end

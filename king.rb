@@ -1,6 +1,9 @@
+require_relative 'piece'
 require_relative 'stepping_piece'
 
-class King < SteppingPiece
+class King < Piece
+  include SteppingPiece
+
   def initialize(color, position, board, move_history = nil)
     @translations = [
       [-1, -1],
@@ -12,11 +15,11 @@ class King < SteppingPiece
       [0, 1],
       [0, -1]
     ]
-    super(color, position, @translations, board, move_history)
+    super(color, position, board, move_history)
   end
 
   def possible_moves
-    moves = super
+    moves = possible_steps
     moves += castles if @board.current_player == color
     moves
   end

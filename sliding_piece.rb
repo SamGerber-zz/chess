@@ -1,17 +1,17 @@
-require_relative 'piece'
+# require_relative 'piece'
 
-class SlidingPiece < Piece
-
-  def initialize(color, position, directions, board, move_history = nil)
-    @directions = directions
-    super(color, position, board, move_history)
-  end
+module SlidingPiece
+  #
+  # def initialize(color, position, directions, board, move_history = nil)
+  #   @directions = directions
+  #   super(color, position, board, move_history)
+  # end
 
 
   # Returns an array of valid moves by iteratively stepping out in
   # each possible direction until it reaches a board boundary or
   # another piece.
-  def possible_moves
+  def possible_slides
     moves = []
 
     @directions.each do |direction|
@@ -27,4 +27,5 @@ class SlidingPiece < Piece
     moves
   end
 
+  alias_method :possible_moves, :possible_slides
 end
