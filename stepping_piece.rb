@@ -2,9 +2,9 @@ require_relative 'piece'
 
 class SteppingPiece < Piece
 
-  def initialize(color, position, translations, board)
+  def initialize(color, position, translations, board, move_history = nil)
     @translations = translations
-    super(color, position, board)
+    super(color, position, board, move_history)
   end
 
   # Returns an array of valid moves by checking whether each possible
