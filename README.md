@@ -8,6 +8,8 @@ To try it for yourself, clone this repo and run the file game.rb
 
 ```shell
 ~$ git clone https://github.com/SamGerber/chess.git
+~$ cd ./chess
+~$ bundle install
 ~$ ./chess/game.rb
 ```
 
